@@ -63,6 +63,22 @@ Google Sign-In on the same Firebase Auth user base if the project grows.
 4. **Profile** — shows the logged-in email, sign-out action. No editable settings in
    this MVP.
 
+### Screen flow
+
+```mermaid
+flowchart TD
+    Start([App launch]) --> LoggedIn{Logged in?}
+    LoggedIn -- No --> Auth[Sign Up / Login]
+    Auth -- success --> Onboarded{Onboarding done?}
+    LoggedIn -- Yes --> Onboarded
+    Onboarded -- No --> Onboarding[Onboarding: pick 2-3 tasks per category]
+    Onboarding --> Home
+    Onboarded -- Yes --> Home[Home: today's tasks + recovered time]
+    Home --> Complete[Mark task complete]
+    Complete --> Home
+    Home --> Profile[Profile: sign out]
+```
+
 ## Data Model (Firestore)
 
 ```
@@ -85,6 +101,50 @@ users/{uid}/completions/{completionId}
 
 The user's total recovered time is derived by summing `completions`, not stored as a
 standalone counter — avoids the counter drifting out of sync with its source data.
+
+### Entity relationships
+
+```mermaid
+erDiagram
+    USER ||--o{ TASK : has
+    USER ||--o{ COMPLETION : has
+    TASK ||--o{ COMPLETION : generates
+
+    USER {
+        string uid
+        string email
+        string displayName
+        timestamp createdAt
+    }
+    TASK {
+        string taskId
+        string category
+        string title
+        number minutesValue
+        boolean isActive
+    }
+    COMPLETION {
+        string completionId
+        string taskId
+        timestamp completedAt
+        number minutesEarned
+    }
+```
+
+### Recovered time engine (core mechanic)
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant App as Home screen
+    participant FS as Firestore
+
+    U->>App: Tap "complete" on a task
+    App->>FS: Create completion {taskId, completedAt, minutesEarned}
+    FS-->>App: Write confirmed
+    App->>App: Recompute total = sum(completions.minutesEarned)
+    App-->>U: "+X minutes" animation, total updated
+```
 
 ## Error Handling
 
