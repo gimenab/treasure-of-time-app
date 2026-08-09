@@ -9,8 +9,7 @@ daily obligations (health, home, work/purpose) converts them into "recovered tim
 user can spend on personally meaningful activities.
 
 This project exists as a portfolio piece to support a Product Manager / Project Manager
-job search. Prior work experience (Odaclick) is under an NDA and cannot be used as a
-portfolio artifact, so this project needs to stand on its own as evidence of product
+job search, so this project needs to stand on its own as evidence of product
 thinking and delivery.
 
 Constraints:
