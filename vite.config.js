@@ -6,4 +6,5 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   base: '/treasure-of-time-app/',
   plugins: [react(), tailwindcss()],
+  test: { include: ['src/**/*.test.js'] },
 })

@@ -62,7 +62,22 @@ export const copy = {
   home: {
     treasure: 'Tu tesoro',
     minutes: (n) => `${n} min`,
-    yourTasks: 'Tus tareas',
-    comingSoon: 'La lista del día llega en el próximo paso.',
+  },
+
+  today: {
+    title: 'Hoy',
+    empty: 'Hoy no tenés tareas programadas.',
+    bonusHint: (n) => `Si completás todo lo de hoy, sumás +${n} min.`,
+    bonusEarned: (n) => `Completaste todo lo de hoy: +${n} min.`,
+    undo: 'Deshacer',
+    difficultTitle: 'Una tarea difícil',
+    difficultHint: (n) => `Opcional. Algo que te cueste, con tus palabras. Vale +${n} min.`,
+    difficultMore: 'Agregar otra',
+    difficultPlaceholder: 'Por ejemplo: llamar al banco',
+    difficultAdd: 'Agregar',
+    difficultBadge: 'Difícil',
+    remove: 'Quitar',
+    yesterday: (title) => `Ayer: ${title}`,
+    addAgain: 'Agregar de nuevo',
   },
 }
