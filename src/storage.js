@@ -9,6 +9,7 @@ export function emptyState() {
     tasks: [], // { id, title, category, minutes, custom, repeat: { type, days, date } }
     treasure: 0, // minutes earned and not yet used
     minutesLived: 0, // only grows (B-10)
+    closedCards: {}, // card id -> day it was closed (B-07)
     days: {}, // "YYYY-MM-DD" -> { done: [taskId], difficult: [{ id, title, done }], bonus }
   }
 }
@@ -29,6 +30,30 @@ export function saveState(state) {
     return true
   } catch {
     return false
+  }
+}
+
+// Export, restore and delete (B-08, C-22). The copy is the whole state as a JSON file.
+export const BACKUP_APP = 'treasure-time'
+
+export function backupFile(state, dayKey) {
+  const json = JSON.stringify({ app: BACKUP_APP, exportedOn: dayKey, state }, null, 2)
+  return { name: `tu-tesoro-${dayKey}.json`, blob: new Blob([json], { type: 'application/json' }) }
+}
+
+// Returns the state inside a copy, or null if the file is not a valid copy of this app.
+export function parseBackup(text) {
+  try {
+    const { app, state } = JSON.parse(text)
+    const valid =
+      app === BACKUP_APP &&
+      state?.version === 1 &&
+      Array.isArray(state.tasks) &&
+      Number.isFinite(state.treasure) &&
+      typeof state.days === 'object'
+    return valid ? { ...emptyState(), ...state } : null
+  } catch {
+    return null
   }
 }
 
