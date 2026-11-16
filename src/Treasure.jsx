@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { copy } from './copy.js'
 import { formatDate } from './date.js'
 import { backupFile, emptyState, parseBackup } from './storage.js'
@@ -6,7 +6,7 @@ import { backupFile, emptyState, parseBackup } from './storage.js'
 const t = copy.treasure
 
 // "Your treasure" view (B-07, C-04) with the user's data controls (B-08, C-22).
-export default function Treasure({ state, setState, dayKey, onBack }) {
+export default function Treasure({ state, setState, dayKey, onBack, onRestored }) {
   return (
     <div>
       <button onClick={onBack} className="text-sm text-muted underline">
@@ -17,13 +17,13 @@ export default function Treasure({ state, setState, dayKey, onBack }) {
         <p className="mt-1 text-5xl font-semibold text-gold">{copy.home.minutes(state.treasure)}</p>
         <p className="mt-4 text-sm text-muted">{t.body}</p>
       </section>
-      <DataSection state={state} setState={setState} dayKey={dayKey} />
+      <DataSection state={state} setState={setState} dayKey={dayKey} onRestored={onRestored} />
     </div>
   )
 }
 
 // On the first visit only "restore" is offered, so a new device can load a copy (C-22).
-export function DataSection({ state, setState, dayKey, firstVisit = false }) {
+export function DataSection({ state, setState, dayKey, onRestored, firstVisit = false }) {
   const fileInput = useRef(null)
   const [pending, setPending] = useState(null) // { kind: 'restore', state, date } | { kind: 'delete' }
   const [message, setMessage] = useState('')
@@ -57,7 +57,7 @@ export function DataSection({ state, setState, dayKey, firstVisit = false }) {
   const confirm = () => {
     if (pending.kind === 'restore') {
       setState(pending.state)
-      setMessage(t.restored)
+      onRestored(pending.date)
     } else {
       setState(emptyState())
     }
@@ -123,5 +123,31 @@ export function DataSection({ state, setState, dayKey, firstVisit = false }) {
         </div>
       )}
     </section>
+  )
+}
+
+// Shown over the home after a restore; closes on its own (founder's request, 2026-11-16).
+export function RestoredModal({ date, onClose }) {
+  useEffect(() => {
+    const id = setTimeout(onClose, 3000)
+    return () => clearTimeout(id)
+  }, [onClose])
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-10 flex items-center justify-center bg-ink/40 px-4"
+      onClick={onClose}
+    >
+      <div className="w-full max-w-sm rounded-2xl bg-paper p-6 text-center shadow-lg">
+        <p className="text-3xl">✓</p>
+        <p className="mt-2 font-semibold">{t.restored}</p>
+        <p className="mt-1 text-sm text-muted">{t.restoredFrom(formatDate(date))}</p>
+        <button onClick={onClose} className="mt-4 rounded-full bg-ink px-6 py-2 text-paper">
+          {t.restoredOk}
+        </button>
+      </div>
+    </div>
   )
 }

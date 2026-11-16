@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { todayKey } from './date.js'
 import { loadState, saveState } from './storage.js'
 import Notice from './Notice.jsx'
 import Setup from './Setup.jsx'
 import Home from './Home.jsx'
-import Treasure, { DataSection } from './Treasure.jsx'
+import Treasure, { DataSection, RestoredModal } from './Treasure.jsx'
 
 // Current local day. Re-checked every minute and when the app comes back to the foreground,
 // so the list resets at midnight even if the app stays open (B-04).
@@ -31,6 +31,13 @@ export default function App() {
   }, [state])
 
   const [view, setView] = useState('home')
+  const [restoredDate, setRestoredDate] = useState(null)
+  const closeRestored = useCallback(() => setRestoredDate(null), [])
+  // After a restore: straight to the home, with a confirmation that closes on its own.
+  const onRestored = (date) => {
+    setView('home')
+    setRestoredDate(date)
+  }
   const update = (patch) => setState((s) => ({ ...s, ...patch }))
 
   // First visit: the notice sits above the setup. Afterwards it is a card on the home.
@@ -48,7 +55,13 @@ export default function App() {
             setView('home')
           }}
         />
-        <DataSection state={state} setState={setState} dayKey={dayKey} firstVisit />
+        <DataSection
+          state={state}
+          setState={setState}
+          dayKey={dayKey}
+          onRestored={onRestored}
+          firstVisit
+        />
       </main>
     )
   }
@@ -61,6 +74,7 @@ export default function App() {
           setState={setState}
           dayKey={dayKey}
           onBack={() => setView('home')}
+          onRestored={onRestored}
         />
       ) : (
         <Home
@@ -70,6 +84,7 @@ export default function App() {
           onOpenTreasure={() => setView('treasure')}
         />
       )}
+      {restoredDate && <RestoredModal date={restoredDate} onClose={closeRestored} />}
     </main>
   )
 }
