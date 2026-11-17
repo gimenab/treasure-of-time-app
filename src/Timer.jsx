@@ -81,10 +81,12 @@ export default function Timer({ state, setState }) {
       <p className="text-sm text-muted">{t.title}</p>
       <p className="mt-2 text-6xl font-semibold tabular-nums text-gold">{clock(leftMs(timer, now))}</p>
       <p className="mt-2 text-sm text-muted">{paused && !asking ? t.paused : t.hint}</p>
+      {!asking && <p className="mt-1 text-sm text-muted">{t.balance(state.treasure, unused)}</p>}
 
       {asking ? (
         <div className="mt-6">
           <p>{t.saveQuestion(unused)}</p>
+          <p className="mt-1 text-sm text-muted">{t.saveResult(state.treasure + unused)}</p>
           <div className="mt-3 flex flex-col gap-2">
             <button onClick={() => answer(true)} className="rounded-full bg-ink py-2 text-paper">
               {t.saveYes}
