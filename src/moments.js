@@ -1,0 +1,45 @@
+// Registering the moment (B-10, C-07). Pure functions: they take the state and return a new one.
+// Only registered time counts: it goes to "minutes lived", which only grows (C-18).
+import { yesterdayKey } from './day.js'
+
+// A moment can be registered on the day it was taken or the next day (user-flow row 22).
+export const stillOpen = (pending, dayKey) =>
+  pending.day === dayKey || pending.day === yesterdayKey(dayKey)
+
+export const openPending = (state, dayKey) =>
+  (state.pending ?? []).filter((p) => stillOpen(p, dayKey))
+
+const newId = () => `m-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+
+// From the "time's up" screen: the timer closes and the moment is saved with its note.
+export function registerFromTimer(state, dayKey, { note, photo = null }, now = Date.now()) {
+  const minutes = state.timer?.used ?? 0
+  if (!state.timer?.finished || minutes <= 0 || !note.trim()) return state
+  return addMoment({ ...state, timer: null }, { day: dayKey, minutes, note, photo }, now)
+}
+
+// "Not now": the moment waits on the home, as a card, until the end of the next day.
+export function skipFromTimer(state, dayKey) {
+  const minutes = state.timer?.used ?? 0
+  if (!state.timer?.finished) return state
+  const next = { ...state, timer: null }
+  if (minutes <= 0) return next
+  return { ...next, pending: [...(state.pending ?? []), { id: newId(), day: dayKey, minutes }] }
+}
+
+// Registering a moment that was left for later.
+export function registerPending(state, dayKey, id, { note, photo = null }, now = Date.now()) {
+  const p = openPending(state, dayKey).find((x) => x.id === id)
+  if (!p || !note.trim()) return state
+  const rest = state.pending.filter((x) => x.id !== id)
+  return addMoment({ ...state, pending: rest }, { day: p.day, minutes: p.minutes, note, photo }, now)
+}
+
+function addMoment(state, { day, minutes, note, photo }, now) {
+  const moment = { id: newId(), day, at: now, minutes, note: note.trim(), photo }
+  return {
+    ...state,
+    minutesLived: state.minutesLived + minutes,
+    moments: [...(state.moments ?? []), moment],
+  }
+}

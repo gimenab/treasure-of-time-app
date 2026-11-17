@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { todayKey } from './date.js'
+import { copy } from './copy.js'
 import { loadState, saveState } from './storage.js'
 import Notice from './Notice.jsx'
 import Setup from './Setup.jsx'
@@ -27,8 +28,12 @@ export default function App() {
   const [state, setState] = useState(loadState)
   const dayKey = useDayKey()
 
+  // If the browser runs out of space (photos), say so instead of losing data quietly.
+  const [saveFailed, setSaveFailed] = useState(false)
   useEffect(() => {
-    saveState(state)
+    // Saving is the external system here; the flag reports whether it worked.
+    // oxlint-disable-next-line react/set-state-in-effect
+    setSaveFailed(!saveState(state))
   }, [state])
 
   const [view, setView] = useState('home')
@@ -70,7 +75,7 @@ export default function App() {
   return (
     <main className="mx-auto min-h-dvh max-w-md px-4 pb-10 pt-6">
       {state.timer ? (
-        <Timer state={state} setState={setState} />
+        <Timer state={state} setState={setState} dayKey={dayKey} />
       ) : view === 'treasure' ? (
         <Treasure
           state={state}
@@ -86,6 +91,9 @@ export default function App() {
           dayKey={dayKey}
           onOpenTreasure={() => setView('treasure')}
         />
+      )}
+      {saveFailed && (
+        <p className="mt-6 rounded-2xl border border-gold/30 bg-gold-soft p-4 text-sm">{copy.saveFailed}</p>
       )}
       {restoredDate && <RestoredModal date={restoredDate} onClose={closeRestored} />}
     </main>

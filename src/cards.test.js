@@ -11,3 +11,17 @@ describe('one card at a time (B-07)', () => {
     expect(pickCard(closed, '2026-11-17')).toBeNull()
   })
 })
+
+describe('pending moment card (B-10)', () => {
+  const withPending = (day) => ({ ...emptyState(), noticeSeen: true, pending: [{ id: 'p', day, minutes: 6 }] })
+
+  it('shows until the end of the next day', () => {
+    expect(pickCard(withPending('2026-11-16'), '2026-11-17')).toBe('pending')
+    expect(pickCard(withPending('2026-11-16'), '2026-11-18')).toBeNull()
+  })
+
+  it('does not come back the day it was closed', () => {
+    const s = closeCard(withPending('2026-11-17'), 'pending', '2026-11-17')
+    expect(pickCard(s, '2026-11-17')).toBeNull()
+  })
+})

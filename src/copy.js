@@ -61,6 +61,7 @@ export const copy = {
 
   home: {
     treasure: 'Tu tesoro',
+    lived: 'Minutos vividos',
     minutes: (n) => `${n} min`,
     open: 'Ver',
     close: 'Cerrar',
@@ -116,6 +117,23 @@ export const copy = {
     doneUsed: (n) => `Usaste ${n} min.`,
     back: 'Volver al inicio',
   },
+
+  register: {
+    question: '¿Qué hiciste con tu tiempo?',
+    placeholder: 'Por ejemplo: tomé mate al sol',
+    addPhoto: 'Agregar una foto',
+    removePhoto: 'Quitar la foto',
+    photoError: 'No se pudo cargar esa foto. Probá con otra.',
+    save: 'Registrar',
+    skip: 'Ahora no',
+    pendingTitle: (n) => `Tenés ${n} min sin registrar`,
+    pendingHint: 'Podés registrarlos hoy o mañana, así cuentan en tus minutos vividos.',
+    pendingOpen: 'Registrar',
+    pendingClose: 'Cerrar',
+    cancel: 'Cancelar',
+  },
+
+  saveFailed: 'No se pudo guardar: el navegador se quedó sin espacio. Exportá una copia desde "Tu tesoro" para no perder nada.',
 
   today: {
     title: 'Hoy',

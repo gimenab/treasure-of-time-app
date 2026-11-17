@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { copy } from './copy.js'
+import { registerFromTimer, skipFromTimer } from './moments.js'
+import Register from './Register.jsx'
 import {
   closeTimer,
   leftMs,
@@ -18,7 +20,7 @@ const clock = (ms) => {
 }
 
 // The time being taken (B-09). Replaces the home until it is over.
-export default function Timer({ state, setState }) {
+export default function Timer({ state, setState, dayKey }) {
   const { timer } = state
   const [now, setNow] = useState(Date.now)
   const [asking, setAsking] = useState(false)
@@ -44,12 +46,19 @@ export default function Timer({ state, setState }) {
       <section className="mt-10 rounded-2xl bg-white p-6 text-center shadow-sm">
         <h1 className="text-2xl font-semibold">{t.doneTitle}</h1>
         <p className="mt-2 text-muted">{t.doneUsed(timer.used)}</p>
-        <button
-          onClick={() => setState(closeTimer)}
-          className="mt-6 w-full rounded-full bg-ink py-2 text-paper"
-        >
-          {t.back}
-        </button>
+        {timer.used > 0 ? (
+          <Register
+            onRegister={(moment) => setState((s) => registerFromTimer(s, dayKey, moment))}
+            onSkip={() => setState((s) => skipFromTimer(s, dayKey))}
+          />
+        ) : (
+          <button
+            onClick={() => setState(closeTimer)}
+            className="mt-6 w-full rounded-full bg-ink py-2 text-paper"
+          >
+            {t.back}
+          </button>
+        )}
       </section>
     )
   }

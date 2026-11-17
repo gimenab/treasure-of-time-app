@@ -1,11 +1,16 @@
+import { openPending } from './moments.js'
+
 // One card at a time on the home (B-07, C-16, user-flow row 27): no pop-ups, at most one card
 // per opening, and a card the user closes does not come back that day.
 // Phase 1 has a single card; the adjustment notice and the relax-time card were cut (CR-02)
 // and will be added to this list in priority order.
-const CARDS = [{ id: 'notice', show: (state) => !state.noticeSeen }]
+const CARDS = [
+  { id: 'notice', show: (state) => !state.noticeSeen },
+  { id: 'pending', show: (state, dayKey) => openPending(state, dayKey).length > 0 }, // B-10
+]
 
 export function pickCard(state, dayKey) {
-  const card = CARDS.find((c) => c.show(state) && state.closedCards?.[c.id] !== dayKey)
+  const card = CARDS.find((c) => c.show(state, dayKey) && state.closedCards?.[c.id] !== dayKey)
   return card?.id ?? null
 }
 
