@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { closeCard, pickCard } from './cards.js'
 import { copy } from './copy.js'
 import { openPending, registerPending } from './moments.js'
+import Feed from './Feed.jsx'
 import Notice from './Notice.jsx'
 import Register from './Register.jsx'
 import TakeTime from './TakeTime.jsx'
 import Today from './Today.jsx'
 
-// Home (B-07): "Your treasure" and "minutes lived" in short, at most one card, and today's list.
+// Home (B-07): "Your treasure" and "minutes lived" in short, at most one card, today's list
+// and the feed of moments below (B-11).
 // No streaks, nothing that resets, no random rewards, no weekly targets (C-09).
 export default function Home({ state, setState, dayKey, onOpenTreasure }) {
   const t = copy.home
@@ -42,6 +44,7 @@ export default function Home({ state, setState, dayKey, onOpenTreasure }) {
       )}
 
       <Today state={state} setState={setState} dayKey={dayKey} />
+      <Feed moments={state.moments} />
     </div>
   )
 }
