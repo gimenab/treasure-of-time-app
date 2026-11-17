@@ -89,6 +89,32 @@ export const copy = {
     cancel: 'Cancelar',
   },
 
+  take: {
+    title: 'Tomar tiempo',
+    hint: 'Minutos para vos, lejos de la pantalla.',
+    all: (n) => `Todo (${n})`,
+    other: 'Otro',
+    otherLabel: 'Minutos',
+    start: (n) => (n ? `Empezar ${n} min` : 'Empezar'),
+    empty: 'Todavía no tenés minutos. Cuando completes tareas, vas a poder tomarlos acá.',
+  },
+
+  timer: {
+    title: 'Tu tiempo',
+    hint: 'Disfrutalo. La app puede quedar cerrada: se corta sola.',
+    paused: 'En pausa',
+    pause: 'Pausar',
+    resume: 'Seguir',
+    stop: 'Terminar antes',
+    saveQuestion: (n) => `¿Guardás los ${n} min que quedan para después?`,
+    saveYes: 'Sí, guardarlos',
+    saveNo: 'No',
+    keepGoing: 'Seguir con mi tiempo',
+    doneTitle: 'Se terminó tu tiempo',
+    doneUsed: (n) => `Usaste ${n} min.`,
+    back: 'Volver al inicio',
+  },
+
   today: {
     title: 'Hoy',
     progress: (done, total) => `${done} de ${total}`,

@@ -9,6 +9,7 @@ export function emptyState() {
     tasks: [], // { id, title, category, minutes, custom, repeat: { type, days, date } }
     treasure: 0, // minutes earned and not yet used
     minutesLived: 0, // only grows (B-10)
+    timer: null, // { minutes, endsAt, leftMs, finished, used } while taking time (B-09)
     closedCards: {}, // card id -> day it was closed (B-07)
     days: {}, // "YYYY-MM-DD" -> { done: [taskId], difficult: [{ id, title, done }], bonus }
   }

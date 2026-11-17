@@ -1,6 +1,7 @@
 import { closeCard, pickCard } from './cards.js'
 import { copy } from './copy.js'
 import Notice from './Notice.jsx'
+import TakeTime from './TakeTime.jsx'
 import Today from './Today.jsx'
 
 // Home (B-07): "Your treasure" in short, at most one card, and today's list.
@@ -22,6 +23,7 @@ export default function Home({ state, setState, dayKey, onOpenTreasure }) {
         </span>
         <span className="text-sm text-muted underline">{t.open}</span>
       </button>
+      <TakeTime state={state} setState={setState} />
 
       {card === 'notice' && (
         <div className="mt-6">

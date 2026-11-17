@@ -4,6 +4,7 @@ import { loadState, saveState } from './storage.js'
 import Notice from './Notice.jsx'
 import Setup from './Setup.jsx'
 import Home from './Home.jsx'
+import Timer from './Timer.jsx'
 import Treasure, { DataSection, RestoredModal } from './Treasure.jsx'
 
 // Current local day. Re-checked every minute and when the app comes back to the foreground,
@@ -68,7 +69,9 @@ export default function App() {
 
   return (
     <main className="mx-auto min-h-dvh max-w-md px-4 pb-10 pt-6">
-      {view === 'treasure' ? (
+      {state.timer ? (
+        <Timer state={state} setState={setState} />
+      ) : view === 'treasure' ? (
         <Treasure
           state={state}
           setState={setState}
