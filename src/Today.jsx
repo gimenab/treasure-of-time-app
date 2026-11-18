@@ -91,7 +91,7 @@ export default function Today({ state, setState, dayKey }) {
             className="mt-4 flex items-center gap-3 rounded-2xl border border-dashed border-ink/20 px-4 py-3 text-sm"
           >
             <span className="flex-1 text-muted">{t.yesterday(d.title)}</span>
-            <button onClick={() => add(d.title)} className="font-medium text-gold underline">
+            <button onClick={() => add(d.title)} className="font-medium text-accent underline">
               {t.addAgain}
             </button>
           </div>
@@ -123,7 +123,7 @@ export default function Today({ state, setState, dayKey }) {
               </div>
             </>
           ) : (
-            <button onClick={() => setWriting(true)} className="mt-1 text-sm text-gold underline">
+            <button onClick={() => setWriting(true)} className="mt-1 text-sm text-accent underline">
               {t.difficultMore}
             </button>
           )}
@@ -140,7 +140,7 @@ function Row({ title, minutes, done, badge, onToggle, onRemove }) {
         onClick={onToggle}
         aria-pressed={done}
         className={`flex size-7 shrink-0 items-center justify-center rounded-full border-2 ${
-          done ? 'border-gold bg-gold text-paper' : 'border-ink/25'
+          done ? 'border-accent bg-accent text-paper' : 'border-ink/25'
         }`}
       >
         {done && '✓'}
@@ -148,7 +148,7 @@ function Row({ title, minutes, done, badge, onToggle, onRemove }) {
       <span className={`flex-1 ${done ? 'text-muted line-through' : ''}`}>
         {title}
         {badge && (
-          <span className="ml-2 rounded-full bg-gold-soft px-2 py-0.5 text-xs text-ink">
+          <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-xs text-ink">
             {badge}
           </span>
         )}

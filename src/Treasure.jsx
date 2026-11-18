@@ -14,7 +14,7 @@ export default function Treasure({ state, setState, dayKey, onBack, onRestored }
       </button>
       <section className="mt-4 rounded-2xl bg-card p-6 text-center shadow-sm">
         <p className="text-sm text-muted">{t.title}</p>
-        <p className="mt-1 font-display text-5xl font-semibold text-gold">{copy.home.minutes(state.treasure)}</p>
+        <p className="mt-1 font-display text-6xl font-semibold text-accent">{copy.home.minutes(state.treasure)}</p>
         <p className="mt-4 text-sm text-muted">{t.body}</p>
       </section>
       <DataSection state={state} setState={setState} dayKey={dayKey} onRestored={onRestored} />
@@ -106,14 +106,14 @@ export function DataSection({ state, setState, dayKey, onRestored, firstVisit = 
       {message && <p className="mt-3 text-center text-sm text-muted">{message}</p>}
 
       {pending && (
-        <div className="mt-4 rounded-2xl border border-gold/40 bg-gold-soft p-4 text-sm">
+        <div className="mt-4 rounded-2xl border border-accent/40 bg-accent-soft p-4 text-sm">
           <p>
             {pending.kind === 'restore'
               ? t.restoreConfirm(formatDate(pending.date))
               : t.deleteConfirm}
           </p>
           <div className="mt-3 flex gap-2">
-            <button onClick={confirm} className="rounded-full bg-gold px-4 py-2 font-semibold text-paper">
+            <button onClick={confirm} className="rounded-full bg-accent px-4 py-2 font-semibold text-paper">
               {pending.kind === 'restore' ? t.restoreYes : t.deleteYes}
             </button>
             <button onClick={() => setPending(null)} className="px-4 py-2 underline">
@@ -137,14 +137,14 @@ export function RestoredModal({ date, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-10 flex items-center justify-center bg-black/60 px-4"
+      className="fixed inset-0 z-10 flex items-center justify-center bg-ink/40 px-4"
       onClick={onClose}
     >
       <div className="w-full max-w-sm rounded-2xl bg-card p-6 text-center shadow-lg">
         <p className="text-3xl">✓</p>
         <p className="mt-2 font-semibold">{t.restored}</p>
         <p className="mt-1 text-sm text-muted">{t.restoredFrom(formatDate(date))}</p>
-        <button onClick={onClose} className="mt-4 rounded-full bg-gold px-6 py-2 font-semibold text-paper">
+        <button onClick={onClose} className="mt-4 rounded-full bg-accent px-6 py-2 font-semibold text-paper">
           {t.restoredOk}
         </button>
       </div>

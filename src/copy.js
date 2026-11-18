@@ -64,6 +64,7 @@ export const copy = {
     lived: 'Minutos vividos',
     minutes: (n) => `${n} min`,
     open: 'Ver',
+    openMoments: 'Mis momentos',
     close: 'Cerrar',
   },
 
@@ -137,6 +138,9 @@ export const copy = {
     title: 'Tus momentos',
     empty: 'Acá van a aparecer los momentos que registres. Completá tareas, tomate tu tiempo y contá qué hiciste con él.',
     meta: (date, n) => `${date} · ${n} min`,
+    minutes: (n) => `${n} min`,
+    back: 'Volver',
+    close: 'Cerrar',
   },
 
   saveFailed: 'No se pudo guardar: el navegador se quedó sin espacio. Exportá una copia desde "Tu tesoro" para no perder nada.',

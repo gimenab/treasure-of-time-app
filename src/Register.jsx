@@ -59,7 +59,7 @@ export default function Register({ onRegister, onSkip, skipLabel = t.skip }) {
         <button
           disabled={!note.trim()}
           onClick={() => onRegister({ note, photo })}
-          className="rounded-full bg-gold py-2 font-semibold text-paper disabled:opacity-40"
+          className="rounded-full bg-accent py-2 font-semibold text-paper disabled:opacity-40"
         >
           {t.save}
         </button>

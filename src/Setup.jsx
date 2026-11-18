@@ -56,7 +56,7 @@ export default function Setup({ onDone }) {
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-semibold">{t.title}</h1>
+      <h1 className="font-display text-4xl font-semibold">{t.title}</h1>
       <p className="mt-1 text-muted">{t.intro}</p>
 
       {CATEGORIES.map((cat) => (
@@ -72,7 +72,7 @@ export default function Setup({ onDone }) {
                     type="checkbox"
                     checked={!!picked[task.id]}
                     onChange={() => toggle(task.id)}
-                    className="size-5 accent-gold"
+                    className="size-5 accent-accent"
                   />
                   <span className="flex-1">{copy.tasks[task.id]}</span>
                   <span className="text-sm text-muted">{copy.min(task.minutes)}</span>
@@ -141,7 +141,7 @@ export default function Setup({ onDone }) {
       <button
         onClick={() => onDone(all)}
         disabled={!canFinish}
-        className="mt-8 w-full rounded-full bg-gold py-3 font-semibold text-paper disabled:opacity-40"
+        className="mt-8 w-full rounded-full bg-accent py-3 font-semibold text-paper disabled:opacity-40"
       >
         {all.length === 0 ? t.doneDisabled : t.done}
       </button>
@@ -176,7 +176,7 @@ function RepeatPicker({ value, onChange }) {
               </Chip>
             ))}
           </div>
-          {value.days.length === 0 && <p className="mt-1 text-gold">{t.pickDays}</p>}
+          {value.days.length === 0 && <p className="mt-1 text-accent">{t.pickDays}</p>}
         </div>
       )}
       {value.type === 'once' && (
@@ -201,7 +201,7 @@ function Chip({ active, onClick, children }) {
       type="button"
       onClick={onClick}
       className={`rounded-full border px-3 py-1 ${
-        active ? 'border-gold bg-gold-soft text-ink' : 'border-ink/15 text-muted'
+        active ? 'border-accent bg-accent-soft text-ink' : 'border-ink/15 text-muted'
       }`}
     >
       {children}

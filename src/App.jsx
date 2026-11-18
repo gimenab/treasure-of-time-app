@@ -6,6 +6,7 @@ import Notice from './Notice.jsx'
 import Setup from './Setup.jsx'
 import Home from './Home.jsx'
 import Timer from './Timer.jsx'
+import Moments from './Moments.jsx'
 import Treasure, { DataSection, RestoredModal } from './Treasure.jsx'
 
 // Current local day. Re-checked every minute and when the app comes back to the foreground,
@@ -84,16 +85,19 @@ export default function App() {
           onBack={() => setView('home')}
           onRestored={onRestored}
         />
+      ) : view === 'moments' ? (
+        <Moments moments={state.moments} onBack={() => setView('home')} />
       ) : (
         <Home
           state={state}
           setState={setState}
           dayKey={dayKey}
           onOpenTreasure={() => setView('treasure')}
+          onOpenMoments={() => setView('moments')}
         />
       )}
       {saveFailed && (
-        <p className="mt-6 rounded-2xl border border-gold/30 bg-gold-soft p-4 text-sm">{copy.saveFailed}</p>
+        <p className="mt-6 rounded-2xl border border-accent/30 bg-accent-soft p-4 text-sm">{copy.saveFailed}</p>
       )}
       {restoredDate && <RestoredModal date={restoredDate} onClose={closeRestored} />}
     </main>

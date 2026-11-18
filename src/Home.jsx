@@ -2,13 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import { closeCard, pickCard } from './cards.js'
 import { copy } from './copy.js'
 import { openPending, registerPending } from './moments.js'
-import Feed from './Feed.jsx'
 import Notice from './Notice.jsx'
 import Register from './Register.jsx'
 import TakeTime from './TakeTime.jsx'
 import Today from './Today.jsx'
 
-// Gold glow when the balance goes up (style 2026-11-18). A new key restarts the animation.
+// Ink glow when the balance goes up (style 2026-11-18). A new key restarts the animation.
 function useGlowKey(value) {
   const prev = useRef(value)
   const [key, setKey] = useState(0)
@@ -20,9 +19,9 @@ function useGlowKey(value) {
 }
 
 // Home (B-07): "Your treasure" and "minutes lived" in short, at most one card, today's list
-// and the feed of moments below (B-11).
+// "minutes lived" opens the moments screen (B-11, founder's change 2026-11-18).
 // No streaks, nothing that resets, no random rewards, no weekly targets (C-09).
-export default function Home({ state, setState, dayKey, onOpenTreasure }) {
+export default function Home({ state, setState, dayKey, onOpenTreasure, onOpenMoments }) {
   const t = copy.home
   const card = pickCard(state, dayKey)
   const close = (id) => setState((s) => closeCard(s, id, dayKey))
@@ -38,16 +37,20 @@ export default function Home({ state, setState, dayKey, onOpenTreasure }) {
           <span className="block text-sm text-muted">{t.treasure}</span>
           <span
             key={glowKey}
-            className={`font-display text-3xl font-semibold text-gold${glowKey ? ' glow' : ''}`}
+            className={`font-display text-4xl font-semibold text-accent${glowKey ? ' glow' : ''}`}
           >
             {t.minutes(state.treasure)}
           </span>
           <span className="mt-1 block text-sm text-muted underline">{t.open}</span>
         </button>
-        <div className="flex-1 rounded-2xl bg-card px-5 py-4 shadow-sm">
+        <button
+          onClick={onOpenMoments}
+          className="flex-1 rounded-2xl bg-card px-5 py-4 text-left shadow-sm"
+        >
           <span className="block text-sm text-muted">{t.lived}</span>
-          <span className="font-display text-3xl font-semibold">{t.minutes(state.minutesLived)}</span>
-        </div>
+          <span className="font-display text-4xl font-semibold">{t.minutes(state.minutesLived)}</span>
+          <span className="mt-1 block text-sm text-muted underline">{t.openMoments}</span>
+        </button>
       </div>
       <TakeTime state={state} setState={setState} />
 
@@ -61,7 +64,6 @@ export default function Home({ state, setState, dayKey, onOpenTreasure }) {
       )}
 
       <Today state={state} setState={setState} dayKey={dayKey} />
-      <Feed moments={state.moments} />
     </div>
   )
 }
@@ -73,8 +75,8 @@ function PendingCard({ state, setState, dayKey, onClose }) {
   const pending = openPending(state, dayKey)[0]
 
   return (
-    <section className="mt-6 rounded-2xl border border-gold/30 bg-gold-soft p-4 text-sm">
-      <h2 className="font-display text-lg font-semibold">{t.pendingTitle(pending.minutes)}</h2>
+    <section className="mt-6 rounded-2xl border border-accent/30 bg-accent-soft p-4 text-sm">
+      <h2 className="font-display text-2xl font-semibold">{t.pendingTitle(pending.minutes)}</h2>
       <p className="mt-1 text-muted">{t.pendingHint}</p>
       {writing ? (
         <Register
@@ -84,7 +86,7 @@ function PendingCard({ state, setState, dayKey, onClose }) {
         />
       ) : (
         <div className="mt-3 flex gap-2">
-          <button onClick={() => setWriting(true)} className="rounded-full bg-gold px-4 py-2 font-semibold text-paper">
+          <button onClick={() => setWriting(true)} className="rounded-full bg-accent px-4 py-2 font-semibold text-paper">
             {t.pendingOpen}
           </button>
           <button onClick={onClose} className="rounded-full border border-ink px-4 py-2">

@@ -19,12 +19,12 @@ export default function TakeTime({ state, setState }) {
   const valid = minutes > 0 && minutes <= max
   const chip = (active) =>
     `rounded-full border px-4 py-2 text-sm disabled:opacity-40 ${
-      active ? 'border-gold bg-gold-soft' : 'border-ink/20 bg-card'
+      active ? 'border-accent bg-accent-soft' : 'border-ink/20 bg-card'
     }`
 
   return (
     <section className="mt-4 rounded-2xl bg-card p-5 shadow-sm">
-      <h2 className="font-display text-lg font-semibold">{t.title}</h2>
+      <h2 className="font-display text-2xl font-semibold">{t.title}</h2>
       <p className="text-sm text-muted">{t.hint}</p>
 
       <div className="mt-3 flex flex-wrap gap-2">
@@ -61,7 +61,7 @@ export default function TakeTime({ state, setState }) {
       <button
         disabled={!valid}
         onClick={() => setState((s) => startTimer(s, minutes, Date.now()))}
-        className="mt-4 w-full rounded-full bg-gold py-2 font-semibold text-paper disabled:opacity-40"
+        className="mt-4 w-full rounded-full bg-accent py-2 font-semibold text-paper disabled:opacity-40"
       >
         {t.start(valid && minutes)}
       </button>
