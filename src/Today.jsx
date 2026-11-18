@@ -111,7 +111,7 @@ export default function Today({ state, setState, dayKey }) {
                   onKeyDown={(e) => e.key === 'Enter' && add(draft)}
                   placeholder={t.difficultPlaceholder}
                   maxLength={80}
-                  className="min-w-0 flex-1 rounded-lg border border-ink/15 bg-white px-3 py-2"
+                  className="min-w-0 flex-1 rounded-lg border border-ink/15 bg-card px-3 py-2"
                 />
                 <button
                   onClick={() => add(draft)}
@@ -135,12 +135,12 @@ export default function Today({ state, setState, dayKey }) {
 
 function Row({ title, minutes, done, badge, onToggle, onRemove }) {
   return (
-    <li className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-sm">
+    <li className="flex items-center gap-3 rounded-2xl bg-card px-4 py-3 shadow-sm">
       <button
         onClick={onToggle}
         aria-pressed={done}
         className={`flex size-7 shrink-0 items-center justify-center rounded-full border-2 ${
-          done ? 'border-gold bg-gold text-white' : 'border-ink/25'
+          done ? 'border-gold bg-gold text-paper' : 'border-ink/25'
         }`}
       >
         {done && '✓'}

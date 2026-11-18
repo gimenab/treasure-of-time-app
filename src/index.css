@@ -1,15 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #fdf8f0;
-  --color-ink: #2b2620;
-  --color-muted: #6b6258;
-  --color-gold: #b7791f;
-  --color-gold-soft: #f6e7c8;
+  --color-paper: #0f1b2d;
+  --color-card: #1a2a42;
+  --color-ink: #f3ead8;
+  --color-muted: #a9b4c4;
+  --color-gold: #e0b44c;
+  --color-gold-soft: #3a3220;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
 }
 
 body {
   background: var(--color-paper);
   color: var(--color-ink);
+}
+
+/* Gold glow when the balance goes up (style 2026-11-18). */
+@keyframes glow {
+  0% { text-shadow: 0 0 0 transparent; }
+  40% { text-shadow: 0 0 18px var(--color-gold); }
+  100% { text-shadow: 0 0 0 transparent; }
+}
+.glow { animation: glow 0.8s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .glow { animation: none; }
 }

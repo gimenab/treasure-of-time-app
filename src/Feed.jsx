@@ -16,7 +16,7 @@ export default function Feed({ moments }) {
       ) : (
         <ul className="mt-3 flex flex-col gap-3">
           {list.map((m) => (
-            <li key={m.id} className="rounded-2xl bg-white p-4 shadow-sm">
+            <li key={m.id} className="rounded-2xl bg-card p-4 shadow-sm">
               <p className="text-sm text-muted">{t.meta(formatDate(m.day), m.minutes)}</p>
               <p className="mt-1 whitespace-pre-line">{m.note}</p>
               {m.photo && <img src={m.photo} alt="" className="mt-3 w-full rounded-lg" />}

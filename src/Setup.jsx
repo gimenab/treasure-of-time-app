@@ -56,7 +56,7 @@ export default function Setup({ onDone }) {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">{t.title}</h1>
+      <h1 className="font-display text-2xl font-semibold">{t.title}</h1>
       <p className="mt-1 text-muted">{t.intro}</p>
 
       {CATEGORIES.map((cat) => (
@@ -66,7 +66,7 @@ export default function Setup({ onDone }) {
           </h2>
           <ul className="mt-2 space-y-2">
             {CATALOG.filter((task) => task.category === cat).map((task) => (
-              <li key={task.id} className="rounded-2xl bg-white p-3 shadow-sm">
+              <li key={task.id} className="rounded-2xl bg-card p-3 shadow-sm">
                 <label className="flex items-center gap-3">
                   <input
                     type="checkbox"
@@ -96,7 +96,7 @@ export default function Setup({ onDone }) {
         <p className="text-sm text-muted">{t.customHint}</p>
         <ul className="mt-2 space-y-2">
           {custom.map((x) => (
-            <li key={x.id} className="rounded-2xl bg-white p-3 shadow-sm">
+            <li key={x.id} className="rounded-2xl bg-card p-3 shadow-sm">
               <div className="flex items-center gap-3">
                 <span className="flex-1">{x.title}</span>
                 <span className="text-sm text-muted">{copy.min(x.minutes)}</span>
@@ -111,7 +111,7 @@ export default function Setup({ onDone }) {
             </li>
           ))}
         </ul>
-        <div className="mt-2 rounded-2xl bg-white p-3 shadow-sm">
+        <div className="mt-2 rounded-2xl bg-card p-3 shadow-sm">
           <input
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
@@ -141,7 +141,7 @@ export default function Setup({ onDone }) {
       <button
         onClick={() => onDone(all)}
         disabled={!canFinish}
-        className="mt-8 w-full rounded-full bg-ink py-3 text-paper disabled:opacity-40"
+        className="mt-8 w-full rounded-full bg-gold py-3 font-semibold text-paper disabled:opacity-40"
       >
         {all.length === 0 ? t.doneDisabled : t.done}
       </button>
