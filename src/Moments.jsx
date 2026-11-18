@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { copy } from './copy.js'
 import { formatDate } from './date.js'
+import { deleteMoment } from './moments.js'
 
 const t = copy.feed
 
 // "Your moments" screen (B-11, moved off the home by the founder's change, 2026-11-18):
 // a polaroid grid, two per row, newest first. A place to look back:
 // no counts, no streaks, no "you have not posted" messages (C-18).
-export default function Moments({ moments, onBack }) {
+export default function Moments({ moments, setState, onBack }) {
   const list = [...(moments ?? [])].sort((a, b) => b.at - a.at)
   const [open, setOpen] = useState(null)
 
@@ -46,12 +47,22 @@ export default function Moments({ moments, onBack }) {
           ))}
         </ul>
       )}
-      {open && <MomentModal moment={open} onClose={() => setOpen(null)} />}
+      {open && (
+        <MomentModal
+          moment={open}
+          onClose={() => setOpen(null)}
+          onDelete={() => {
+            setState((s) => deleteMoment(s, open.id))
+            setOpen(null)
+          }}
+        />
+      )}
     </div>
   )
 }
 
-function MomentModal({ moment, onClose }) {
+function MomentModal({ moment, onClose, onDelete }) {
+  const [confirming, setConfirming] = useState(false)
   return (
     <div
       role="dialog"
@@ -66,12 +77,31 @@ function MomentModal({ moment, onClose }) {
         {moment.photo && <img src={moment.photo} alt="" className="w-full" />}
         <p className="mt-3 text-sm text-muted">{t.meta(formatDate(moment.day), moment.minutes)}</p>
         <p className="mt-1 whitespace-pre-line">{moment.note}</p>
-        <button
-          onClick={onClose}
-          className="mt-4 w-full rounded-full bg-accent py-2 font-semibold text-paper"
-        >
-          {t.close}
-        </button>
+        {confirming ? (
+          <div className="mt-4 rounded-lg bg-accent-soft p-3 text-sm">
+            <p>{t.deleteConfirm(moment.minutes)}</p>
+            <div className="mt-3 flex gap-2">
+              <button onClick={onDelete} className="rounded-full bg-accent px-4 py-2 font-semibold text-paper">
+                {t.deleteYes}
+              </button>
+              <button onClick={() => setConfirming(false)} className="px-4 py-2 underline">
+                {t.cancel}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <button
+              onClick={onClose}
+              className="mt-4 w-full rounded-full bg-accent py-2 font-semibold text-paper"
+            >
+              {t.close}
+            </button>
+            <button onClick={() => setConfirming(true)} className="mt-2 w-full py-2 text-sm text-muted underline">
+              {t.delete}
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

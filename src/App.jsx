@@ -93,7 +93,7 @@ export default function App() {
           onRestored={onRestored}
         />
       ) : view === 'moments' ? (
-        <Moments moments={state.moments} onBack={() => setView('home')} />
+        <Moments moments={state.moments} setState={setState} onBack={() => setView('home')} />
       ) : (
         <Home
           state={state}

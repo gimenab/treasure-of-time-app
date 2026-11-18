@@ -35,6 +35,18 @@ export function registerPending(state, dayKey, id, { note, photo = null }, now =
   return addMoment({ ...state, pending: rest }, { day: p.day, minutes: p.minutes, note, photo }, now)
 }
 
+// Deleting a moment that went wrong: its minutes come off "minutes lived" (founder's change,
+// 2026-11-18). It corrects a mistake; the treasure is not touched.
+export function deleteMoment(state, id) {
+  const m = (state.moments ?? []).find((x) => x.id === id)
+  if (!m) return state
+  return {
+    ...state,
+    minutesLived: Math.max(0, state.minutesLived - m.minutes),
+    moments: state.moments.filter((x) => x.id !== id),
+  }
+}
+
 function addMoment(state, { day, minutes, note, photo }, now) {
   const moment = { id: newId(), day, at: now, minutes, note: note.trim(), photo }
   return {

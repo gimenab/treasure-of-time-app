@@ -141,6 +141,10 @@ export const copy = {
     minutes: (n) => `${n} min`,
     back: 'Volver',
     close: 'Cerrar',
+    delete: 'Borrar este momento',
+    deleteConfirm: (n) => `¿Borrar este momento? Sus ${n} min se restan de tus minutos vividos.`,
+    deleteYes: 'Sí, borrar',
+    cancel: 'Cancelar',
   },
 
   appName: 'Treasure Time',

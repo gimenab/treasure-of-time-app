@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { openPending, registerFromTimer, registerPending, skipFromTimer } from './moments.js'
+import { deleteMoment, openPending, registerFromTimer, registerPending, skipFromTimer } from './moments.js'
 import { emptyState } from './storage.js'
 import { startTimer, stopTimer } from './timer.js'
 
@@ -59,5 +59,20 @@ describe('"Not now" and registering later (row 22)', () => {
   it('with no time used there is nothing to register', () => {
     const s = skipFromTimer(stopTimer(startTimer({ ...emptyState(), treasure: 5 }, 5, 0), 0, true), MON)
     expect(s.pending).toEqual([])
+  })
+})
+
+describe('deleteMoment (founder change, 2026-11-18)', () => {
+  it('removes the moment and takes its minutes off "minutes lived"', () => {
+    const s = registerFromTimer(finished(), MON, { note: 'Salió mal' })
+    const after = deleteMoment(s, s.moments[0].id)
+    expect(after.moments).toHaveLength(0)
+    expect(after.minutesLived).toBe(0)
+    expect(after.treasure).toBe(s.treasure)
+  })
+
+  it('does nothing for an unknown id', () => {
+    const s = registerFromTimer(finished(), MON, { note: 'Plaza' })
+    expect(deleteMoment(s, 'nope')).toBe(s)
   })
 })
