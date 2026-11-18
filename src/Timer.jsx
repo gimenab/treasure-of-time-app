@@ -44,7 +44,7 @@ export default function Timer({ state, setState, dayKey }) {
   if (timer.finished) {
     return (
       <section className="mt-10 rounded-2xl bg-card p-6 text-center shadow-sm">
-        <h1 className="font-display text-4xl font-semibold">{t.doneTitle}</h1>
+        <h1 className="font-display text-accent text-4xl font-semibold">{t.doneTitle}</h1>
         <p className="mt-2 text-muted">{t.doneUsed(timer.used)}</p>
         {timer.used > 0 ? (
           <Register

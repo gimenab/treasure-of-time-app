@@ -56,7 +56,7 @@ export default function Setup({ onDone }) {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-semibold">{t.title}</h1>
+      <h1 className="font-display text-accent text-4xl font-semibold">{t.title}</h1>
       <p className="mt-1 text-muted">{t.intro}</p>
 
       {CATEGORIES.map((cat) => (

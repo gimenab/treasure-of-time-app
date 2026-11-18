@@ -48,7 +48,7 @@ export default function Home({ state, setState, dayKey, onOpenTreasure, onOpenMo
           className="flex-1 rounded-2xl bg-card px-5 py-4 text-left shadow-sm"
         >
           <span className="block text-sm text-muted">{t.lived}</span>
-          <span className="font-display text-4xl font-semibold">{t.minutes(state.minutesLived)}</span>
+          <span className="font-display text-accent text-4xl font-semibold">{t.minutes(state.minutesLived)}</span>
           <span className="mt-1 block text-sm text-muted underline">{t.openMoments}</span>
         </button>
       </div>
@@ -76,7 +76,7 @@ function PendingCard({ state, setState, dayKey, onClose }) {
 
   return (
     <section className="mt-6 rounded-2xl border border-accent/30 bg-accent-soft p-4 text-sm">
-      <h2 className="font-display text-2xl font-semibold">{t.pendingTitle(pending.minutes)}</h2>
+      <h2 className="font-display text-accent text-2xl font-semibold">{t.pendingTitle(pending.minutes)}</h2>
       <p className="mt-1 text-muted">{t.pendingHint}</p>
       {writing ? (
         <Register

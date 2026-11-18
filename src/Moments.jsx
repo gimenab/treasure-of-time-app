@@ -16,7 +16,7 @@ export default function Moments({ moments, onBack }) {
       <button onClick={onBack} className="text-sm text-muted underline">
         ← {t.back}
       </button>
-      <h1 className="mt-4 font-display text-4xl font-semibold">{t.title}</h1>
+      <h1 className="mt-4 font-display text-accent text-4xl font-semibold">{t.title}</h1>
       {list.length === 0 ? (
         <p className="mt-2 text-sm text-muted">{t.empty}</p>
       ) : (
@@ -31,7 +31,7 @@ export default function Moments({ moments, onBack }) {
                   {m.photo ? (
                     <img src={m.photo} alt="" className="aspect-square w-full object-cover" />
                   ) : (
-                    <p className="line-clamp-6 aspect-square w-full overflow-hidden bg-accent-soft p-3 font-display text-xl leading-tight">
+                    <p className="line-clamp-6 aspect-square w-full overflow-hidden bg-accent-soft p-3 font-display text-accent text-xl leading-tight">
                       {m.note}
                     </p>
                   )}
