@@ -122,7 +122,8 @@ export const copy = {
   register: {
     question: '¿Qué hiciste con tu tiempo?',
     placeholder: 'Por ejemplo: tomé mate al sol',
-    addPhoto: 'Agregar una foto',
+    addPhoto: 'Elegir de la galería',
+    takePhoto: 'Sacar una foto',
     removePhoto: 'Quitar la foto',
     photoError: 'No se pudo cargar esa foto. Probá con otra.',
     save: 'Registrar',

@@ -10,6 +10,7 @@ export default function Register({ onRegister, onSkip, skipLabel = t.skip }) {
   const [photo, setPhoto] = useState(null)
   const [photoError, setPhotoError] = useState(false)
   const fileInput = useRef(null)
+  const cameraInput = useRef(null)
 
   const pick = async (e) => {
     const file = e.target.files[0]
@@ -45,15 +46,32 @@ export default function Register({ onRegister, onSkip, skipLabel = t.skip }) {
           </button>
         </div>
       ) : (
-        <button
-          onClick={() => fileInput.current.click()}
-          className="mt-2 rounded-full border border-ink/20 px-4 py-2 text-sm"
-        >
-          {t.addPhoto}
-        </button>
+        <div className="mt-2 flex flex-wrap gap-2">
+          <button
+            onClick={() => cameraInput.current.click()}
+            className="rounded-full border border-ink/20 px-4 py-2 text-sm"
+          >
+            {t.takePhoto}
+          </button>
+          <button
+            onClick={() => fileInput.current.click()}
+            className="rounded-full border border-ink/20 px-4 py-2 text-sm"
+          >
+            {t.addPhoto}
+          </button>
+        </div>
       )}
       {photoError && <p className="mt-1 text-sm text-muted">{t.photoError}</p>}
       <input ref={fileInput} type="file" accept="image/*" onChange={pick} className="hidden" />
+      {/* On a phone, capture opens the camera straight away; on a computer it acts like the gallery. */}
+      <input
+        ref={cameraInput}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        onChange={pick}
+        className="hidden"
+      />
 
       <div className="mt-4 flex flex-col gap-2">
         <button
