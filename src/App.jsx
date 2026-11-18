@@ -25,6 +25,11 @@ function useDayKey() {
   return key
 }
 
+// App name on top of every screen (founder's request, 2026-11-18).
+function AppName() {
+  return <p className="mb-4 text-center font-display text-3xl font-semibold text-accent">{copy.appName}</p>
+}
+
 export default function App() {
   const [state, setState] = useState(loadState)
   const dayKey = useDayKey()
@@ -51,6 +56,7 @@ export default function App() {
   if (!state.setupDone) {
     return (
       <main className="mx-auto min-h-dvh max-w-md px-4 pb-10 pt-6">
+        <AppName />
         {!state.noticeSeen && (
           <div className="mb-6">
             <Notice onOk={() => update({ noticeSeen: true })} />
@@ -75,6 +81,7 @@ export default function App() {
 
   return (
     <main className="mx-auto min-h-dvh max-w-md px-4 pb-10 pt-6">
+      <AppName />
       {state.timer ? (
         <Timer state={state} setState={setState} dayKey={dayKey} />
       ) : view === 'treasure' ? (

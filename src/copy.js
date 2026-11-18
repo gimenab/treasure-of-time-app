@@ -143,6 +143,8 @@ export const copy = {
     close: 'Cerrar',
   },
 
+  appName: 'Treasure Time',
+
   saveFailed: 'No se pudo guardar: el navegador se quedó sin espacio. Exportá una copia desde "Tu tesoro" para no perder nada.',
 
   today: {
