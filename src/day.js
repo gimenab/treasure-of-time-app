@@ -1,5 +1,6 @@
 // Daily list rules (B-04 to B-06). Pure functions: they take the state and return a new one.
 import { todayKey } from './date.js'
+import { countTask } from './wildcard.js'
 
 export const DIFFICULT_MINUTES = 20 // C-17
 export const DAY_BONUS = 10 // C-17
@@ -60,10 +61,13 @@ export function toggleTask(state, key, taskId) {
   const task = state.tasks.find((t) => t.id === taskId)
   const day = getDay(state, key)
   const marked = day.done.includes(taskId)
-  const next = {
-    ...state,
-    treasure: marked ? Math.max(0, state.treasure - task.minutes) : state.treasure + task.minutes,
-  }
+  const next = countTask(
+    {
+      ...state,
+      treasure: marked ? Math.max(0, state.treasure - task.minutes) : state.treasure + task.minutes,
+    },
+    marked ? -1 : 1,
+  )
   const done = marked ? day.done.filter((id) => id !== taskId) : [...day.done, taskId]
   return settleBonus(next, key, { ...day, done })
 }
@@ -82,7 +86,7 @@ export function toggleDifficult(state, key, id) {
     ? Math.max(0, state.treasure - DIFFICULT_MINUTES)
     : state.treasure + DIFFICULT_MINUTES
   const difficult = day.difficult.map((d) => (d.id === id ? { ...d, done: !d.done } : d))
-  return settleBonus({ ...state, treasure }, key, { ...day, difficult })
+  return settleBonus(countTask({ ...state, treasure }, item.done ? -1 : 1), key, { ...day, difficult })
 }
 
 // An unmarked difficult task can be removed the same day (it was never earned).

@@ -1,26 +1,34 @@
 import { useRef, useState } from 'react'
 import { copy } from './copy.js'
+import { todayKey } from './date.js'
+import { photoFitsMoment } from './moments.js'
 import { shrinkPhoto } from './photo.js'
 
 const t = copy.register
 
 // Note (required) and one photo (optional) for a moment (B-10, S-02).
-export default function Register({ onRegister, onSkip, skipLabel = t.skip }) {
+// Camera only, no gallery: the photo records the moment, not the past (founder, 2026-11-19).
+export default function Register({ momentDay, onRegister, onSkip, skipLabel = t.skip }) {
   const [note, setNote] = useState('')
   const [photo, setPhoto] = useState(null)
-  const [photoError, setPhotoError] = useState(false)
-  const fileInput = useRef(null)
+  const [photoError, setPhotoError] = useState(null) // null | 'error' | 'old'
   const cameraInput = useRef(null)
 
   const pick = async (e) => {
     const file = e.target.files[0]
     e.target.value = ''
     if (!file) return
+    // On a computer the camera button opens the files, so the file date is checked too.
+    const photoDay = todayKey(new Date(file.lastModified))
+    if (!photoFitsMoment(photoDay, momentDay, todayKey())) {
+      setPhotoError('old')
+      return
+    }
     try {
       setPhoto(await shrinkPhoto(file))
-      setPhotoError(false)
+      setPhotoError(null)
     } catch {
-      setPhotoError(true)
+      setPhotoError('error')
     }
   }
 
@@ -53,17 +61,12 @@ export default function Register({ onRegister, onSkip, skipLabel = t.skip }) {
           >
             {t.takePhoto}
           </button>
-          <button
-            onClick={() => fileInput.current.click()}
-            className="rounded-full border border-ink/20 px-4 py-2 text-sm"
-          >
-            {t.addPhoto}
-          </button>
         </div>
       )}
-      {photoError && <p className="mt-1 text-sm text-muted">{t.photoError}</p>}
-      <input ref={fileInput} type="file" accept="image/*" onChange={pick} className="hidden" />
-      {/* On a phone, capture opens the camera straight away; on a computer it acts like the gallery. */}
+      {photoError && (
+        <p className="mt-1 text-sm text-muted">{photoError === 'old' ? t.photoOld : t.photoError}</p>
+      )}
+      {/* On a phone, capture opens the camera straight away; on a computer it opens the files. */}
       <input
         ref={cameraInput}
         type="file"

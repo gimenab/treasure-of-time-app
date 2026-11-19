@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { copy } from './copy.js'
 import { maxMinutes, startTimer } from './timer.js'
+import { WILDCARD_MINUTES, getWildcard, startWildcard, tasksLeft } from './wildcard.js'
 
 const t = copy.take
 const QUICK = [5, 10, 15]
@@ -11,8 +12,14 @@ export default function TakeTime({ state, setState }) {
   const [picked, setPicked] = useState(null) // number | 'other'
   const [other, setOther] = useState('')
 
+  const wildcard = <Wildcard state={state} setState={setState} />
   if (max <= 0) {
-    return <p className="mt-4 text-sm text-muted">{t.empty}</p>
+    return (
+      <>
+        <p className="mt-4 text-sm text-muted">{t.empty}</p>
+        {wildcard}
+      </>
+    )
   }
 
   const minutes = picked === 'other' ? Math.min(Math.floor(Number(other)), max) : picked
@@ -65,6 +72,26 @@ export default function TakeTime({ state, setState }) {
       >
         {t.start(valid && minutes)}
       </button>
+      {wildcard}
     </section>
+  )
+}
+
+// The wildcard (S-01): shown even with a balance of 0, which is when it matters most.
+function Wildcard({ state, setState }) {
+  if (state.timer) return null
+  if (!getWildcard(state).held) {
+    return <p className="mt-3 text-sm text-muted">{t.wildcardNext(tasksLeft(state))}</p>
+  }
+  return (
+    <div className="mt-4 border-t border-ink/10 pt-3">
+      <button
+        onClick={() => setState((s) => startWildcard(s, Date.now()))}
+        className="w-full rounded-full border border-accent py-2 font-semibold text-accent"
+      >
+        {t.wildcard(WILDCARD_MINUTES)}
+      </button>
+      <p className="mt-1 text-sm text-muted">{t.wildcardHint}</p>
+    </div>
   )
 }

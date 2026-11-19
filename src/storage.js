@@ -10,8 +10,9 @@ export function emptyState() {
     treasure: 0, // minutes earned and not yet used
     minutesLived: 0, // only grows (B-10)
     timer: null, // { minutes, endsAt, leftMs, finished, used } while taking time (B-09)
-    moments: [], // { id, day, at, minutes, note, photo } registered moments, for the feed (B-10, B-11)
-    pending: [], // { id, day, minutes } time used and not registered yet (row 22)
+    moments: [], // { id, day, at, minutes, note, photo, wildcard } registered moments, for the feed (B-10, B-11)
+    pending: [], // { id, day, minutes, wildcard } time used and not registered yet (row 22)
+    wildcard: { held: true, tasksSince: 0 }, // S-01: at most 1, the next after 3 tasks
     closedCards: {}, // card id -> day it was closed (B-07)
     days: {}, // "YYYY-MM-DD" -> { done: [taskId], difficult: [{ id, title, done }], bonus }
   }

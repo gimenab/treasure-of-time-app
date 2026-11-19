@@ -48,11 +48,14 @@ export const unusedMinutes = (timer, now) => Math.round(leftMs(timer, now) / MIN
 export function stopTimer(state, now, save) {
   const { timer } = state
   if (!timer || timer.finished) return state
-  const back = save ? Math.min(unusedMinutes(timer, now), timer.minutes) : 0
+  const unused = Math.min(unusedMinutes(timer, now), timer.minutes)
+  // Wildcard minutes were not earned: what is left of them is lost, not saved (S-01).
+  const back = save && !timer.wildcard ? unused : 0
+  const used = timer.wildcard ? timer.minutes - unused : timer.minutes - back
   return {
     ...state,
     treasure: state.treasure + back,
-    timer: { ...timer, finished: true, used: timer.minutes - back, endsAt: null, leftMs: 0 },
+    timer: { ...timer, finished: true, used, endsAt: null, leftMs: 0 },
   }
 }
 

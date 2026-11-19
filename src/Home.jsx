@@ -80,6 +80,7 @@ function PendingCard({ state, setState, dayKey, onClose }) {
       <p className="mt-1 text-muted">{t.pendingHint}</p>
       {writing ? (
         <Register
+          momentDay={pending.day}
           onRegister={(moment) => setState((s) => registerPending(s, dayKey, pending.id, moment))}
           onSkip={() => setWriting(false)}
           skipLabel={t.cancel}

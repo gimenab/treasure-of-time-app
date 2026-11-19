@@ -99,6 +99,9 @@ export const copy = {
     otherLabel: 'Minutos',
     start: (n) => (n ? `Empezar ${n} min` : 'Empezar'),
     empty: 'Todavía no tenés minutos. Cuando completes tareas, vas a poder tomarlos acá.',
+    wildcard: (n) => `Usar comodín (${n} min)`,
+    wildcardHint: 'Para un día difícil: minutos sin haberlos ganado. Tenés 1.',
+    wildcardNext: (n) => `El próximo comodín llega después de ${n === 1 ? '1 tarea' : `${n} tareas`}.`,
   },
 
   timer: {
@@ -109,6 +112,8 @@ export const copy = {
     resume: 'Seguir',
     stop: 'Terminar antes',
     balance: (treasure, back) => `Tu tesoro: ${treasure} min · si cortás ahora, vuelven ${back} min`,
+    wildcardTitle: 'Tu comodín',
+    wildcardBalance: 'Es un comodín: si cortás antes, los minutos que quedan no vuelven al tesoro.',
     saveQuestion: (n) => `¿Guardás los ${n} min que quedan para después?`,
     saveResult: (total) => `Tu tesoro quedaría en ${total} min.`,
     saveYes: 'Sí, guardarlos',
@@ -122,10 +127,10 @@ export const copy = {
   register: {
     question: '¿Qué hiciste con tu tiempo?',
     placeholder: 'Por ejemplo: tomé mate al sol',
-    addPhoto: 'Elegir de la galería',
     takePhoto: 'Sacar una foto',
     removePhoto: 'Quitar la foto',
     photoError: 'No se pudo cargar esa foto. Probá con otra.',
+    photoOld: 'La foto tiene que ser del día del momento. Si no, contalo con palabras.',
     save: 'Registrar',
     skip: 'Ahora no',
     pendingTitle: (n) => `Tenés ${n} min sin registrar`,
@@ -139,6 +144,7 @@ export const copy = {
     title: 'Tus momentos',
     empty: 'Acá van a aparecer los momentos que registres. Completá tareas, tomate tu tiempo y contá qué hiciste con él.',
     meta: (date, n) => `${date} · ${n} min`,
+    wildcard: 'Comodín',
     minutes: (n) => `${n} min`,
     back: 'Volver',
     close: 'Cerrar',

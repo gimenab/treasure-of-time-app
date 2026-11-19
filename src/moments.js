@@ -15,7 +15,8 @@ const newId = () => `m-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
 export function registerFromTimer(state, dayKey, { note, photo = null }, now = Date.now()) {
   const minutes = state.timer?.used ?? 0
   if (!state.timer?.finished || minutes <= 0 || !note.trim()) return state
-  return addMoment({ ...state, timer: null }, { day: dayKey, minutes, note, photo }, now)
+  const wildcard = Boolean(state.timer.wildcard)
+  return addMoment({ ...state, timer: null }, { day: dayKey, minutes, note, photo, wildcard }, now)
 }
 
 // "Not now": the moment waits on the home, as a card, until the end of the next day.
@@ -24,7 +25,8 @@ export function skipFromTimer(state, dayKey) {
   if (!state.timer?.finished) return state
   const next = { ...state, timer: null }
   if (minutes <= 0) return next
-  return { ...next, pending: [...(state.pending ?? []), { id: newId(), day: dayKey, minutes }] }
+  const p = { id: newId(), day: dayKey, minutes, wildcard: Boolean(state.timer.wildcard) }
+  return { ...next, pending: [...(state.pending ?? []), p] }
 }
 
 // Registering a moment that was left for later.
@@ -32,7 +34,8 @@ export function registerPending(state, dayKey, id, { note, photo = null }, now =
   const p = openPending(state, dayKey).find((x) => x.id === id)
   if (!p || !note.trim()) return state
   const rest = state.pending.filter((x) => x.id !== id)
-  return addMoment({ ...state, pending: rest }, { day: p.day, minutes: p.minutes, note, photo }, now)
+  const moment = { day: p.day, minutes: p.minutes, note, photo, wildcard: Boolean(p.wildcard) }
+  return addMoment({ ...state, pending: rest }, moment, now)
 }
 
 // Deleting a moment that went wrong: its minutes come off "minutes lived" (founder's change,
@@ -47,11 +50,16 @@ export function deleteMoment(state, id) {
   }
 }
 
-function addMoment(state, { day, minutes, note, photo }, now) {
-  const moment = { id: newId(), day, at: now, minutes, note: note.trim(), photo }
+function addMoment(state, { day, minutes, note, photo, wildcard }, now) {
+  const moment = { id: newId(), day, at: now, minutes, note: note.trim(), photo, wildcard }
   return {
     ...state,
     minutesLived: state.minutesLived + minutes,
     moments: [...(state.moments ?? []), moment],
   }
 }
+
+// A photo is accepted only if it was taken on the moment's day or today, when it is being
+// registered (founder, 2026-11-19): the photo records the moment, not the past.
+export const photoFitsMoment = (photoDay, momentDay, today) =>
+  photoDay === momentDay || photoDay === today

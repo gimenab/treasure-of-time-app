@@ -48,6 +48,7 @@ export default function Timer({ state, setState, dayKey }) {
         <p className="mt-2 text-muted">{t.doneUsed(timer.used)}</p>
         {timer.used > 0 ? (
           <Register
+            momentDay={dayKey}
             onRegister={(moment) => setState((s) => registerFromTimer(s, dayKey, moment))}
             onSkip={() => setState((s) => skipFromTimer(s, dayKey))}
           />
@@ -68,7 +69,9 @@ export default function Timer({ state, setState, dayKey }) {
 
   // Stopping early: save the unused minutes only if there are any (row 14).
   const stop = () => {
-    if (unused > 0) {
+    if (timer.wildcard) {
+      apply((s, n) => stopTimer(s, n, false))
+    } else if (unused > 0) {
       apply(pauseTimer)
       setAsking({ wasPaused: paused })
     } else {
@@ -87,10 +90,14 @@ export default function Timer({ state, setState, dayKey }) {
 
   return (
     <section className="mt-10 rounded-2xl bg-card p-6 text-center shadow-sm">
-      <p className="text-sm text-muted">{t.title}</p>
+      <p className="text-sm text-muted">{timer.wildcard ? t.wildcardTitle : t.title}</p>
       <p className="mt-2 font-display text-6xl tabular-nums text-accent">{clock(leftMs(timer, now))}</p>
       <p className="mt-2 text-sm text-muted">{paused && !asking ? t.paused : t.hint}</p>
-      {!asking && <p className="mt-1 text-sm text-muted">{t.balance(state.treasure, unused)}</p>}
+      {!asking && (
+        <p className="mt-1 text-sm text-muted">
+          {timer.wildcard ? t.wildcardBalance : t.balance(state.treasure, unused)}
+        </p>
+      )}
 
       {asking ? (
         <div className="mt-6">

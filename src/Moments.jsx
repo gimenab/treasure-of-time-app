@@ -36,6 +36,11 @@ export default function Moments({ moments, setState, onBack }) {
                       {m.note}
                     </p>
                   )}
+                  {m.wildcard && (
+                    <span className="absolute left-1 top-1 rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-paper">
+                      {t.wildcard}
+                    </span>
+                  )}
                   <span className="absolute bottom-1 right-1 rounded-full bg-ink/75 px-2 py-0.5 text-xs font-semibold text-paper">
                     {t.minutes(m.minutes)}
                   </span>
@@ -76,7 +81,10 @@ function MomentModal({ moment, onClose, onDelete }) {
         onClick={(e) => e.stopPropagation()}
       >
         {moment.photo && <img src={moment.photo} alt="" className="w-full" />}
-        <p className="mt-3 text-sm text-muted">{t.meta(formatDate(moment.day), moment.minutes)}</p>
+        <p className="mt-3 text-sm text-muted">
+          {t.meta(formatDate(moment.day), moment.minutes)}
+          {moment.wildcard && ` · ${t.wildcard}`}
+        </p>
         <p className="mt-1 whitespace-pre-line">{moment.note}</p>
         {confirming ? (
           <div className="mt-4 rounded-lg bg-accent-soft p-3 text-sm">
