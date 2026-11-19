@@ -24,7 +24,7 @@ export default function TakeTime({ state, setState }) {
 
   return (
     <section className="mt-4 rounded-2xl bg-card p-5 shadow-sm">
-      <h2 className="font-display text-accent text-2xl font-semibold">{t.title}</h2>
+      <h2 className="font-display text-accent text-xl">{t.title}</h2>
       <p className="text-sm text-muted">{t.hint}</p>
 
       <div className="mt-3 flex flex-wrap gap-2">

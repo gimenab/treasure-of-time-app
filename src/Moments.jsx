@@ -17,7 +17,7 @@ export default function Moments({ moments, setState, onBack }) {
       <button onClick={onBack} className="text-sm text-muted underline">
         ← {t.back}
       </button>
-      <h1 className="mt-4 font-display text-accent text-4xl font-semibold">{t.title}</h1>
+      <h1 className="mt-4 font-display text-accent text-3xl">{t.title}</h1>
       {list.length === 0 ? (
         <p className="mt-2 text-sm text-muted">{t.empty}</p>
       ) : (

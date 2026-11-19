@@ -14,7 +14,7 @@ export default function Treasure({ state, setState, dayKey, onBack, onRestored }
       </button>
       <section className="mt-4 rounded-2xl bg-card p-6 text-center shadow-sm">
         <p className="text-sm text-muted">{t.title}</p>
-        <p className="mt-1 font-display text-6xl font-semibold text-accent">{copy.home.minutes(state.treasure)}</p>
+        <p className="mt-1 font-display text-5xl text-accent">{copy.home.minutes(state.treasure)}</p>
         <p className="mt-4 text-sm text-muted">{t.body}</p>
       </section>
       <DataSection state={state} setState={setState} dayKey={dayKey} onRestored={onRestored} />

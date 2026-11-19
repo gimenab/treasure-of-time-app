@@ -27,7 +27,7 @@ function useDayKey() {
 
 // App name on top of every screen (founder's request, 2026-11-18).
 function AppName() {
-  return <p className="mb-4 text-center font-display text-5xl font-semibold text-accent">{copy.appName}</p>
+  return <p className="mb-4 text-center font-display text-5xl text-accent">{copy.appName}</p>
 }
 
 export default function App() {

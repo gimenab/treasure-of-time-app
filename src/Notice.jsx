@@ -6,7 +6,7 @@ export default function Notice({ onOk }) {
   const t = copy.notice
   return (
     <section className="mb-6 rounded-2xl border border-accent/30 bg-accent-soft p-4 text-sm">
-      <h2 className="font-display text-accent text-2xl font-semibold">{t.title}</h2>
+      <h2 className="font-display text-accent text-xl">{t.title}</h2>
       <p className="mt-1 text-muted">{t.body}</p>
       {needsIphoneTip() && <p className="mt-2 text-muted">{t.iphoneTip}</p>}
       <button

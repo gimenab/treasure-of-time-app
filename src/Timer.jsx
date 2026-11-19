@@ -44,7 +44,7 @@ export default function Timer({ state, setState, dayKey }) {
   if (timer.finished) {
     return (
       <section className="mt-10 rounded-2xl bg-card p-6 text-center shadow-sm">
-        <h1 className="font-display text-accent text-4xl font-semibold">{t.doneTitle}</h1>
+        <h1 className="font-display text-accent text-3xl">{t.doneTitle}</h1>
         <p className="mt-2 text-muted">{t.doneUsed(timer.used)}</p>
         {timer.used > 0 ? (
           <Register
@@ -88,7 +88,7 @@ export default function Timer({ state, setState, dayKey }) {
   return (
     <section className="mt-10 rounded-2xl bg-card p-6 text-center shadow-sm">
       <p className="text-sm text-muted">{t.title}</p>
-      <p className="mt-2 font-display text-7xl font-semibold tabular-nums text-accent">{clock(leftMs(timer, now))}</p>
+      <p className="mt-2 font-display text-6xl tabular-nums text-accent">{clock(leftMs(timer, now))}</p>
       <p className="mt-2 text-sm text-muted">{paused && !asking ? t.paused : t.hint}</p>
       {!asking && <p className="mt-1 text-sm text-muted">{t.balance(state.treasure, unused)}</p>}
 
