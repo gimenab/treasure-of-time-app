@@ -23,10 +23,10 @@ export default function Moments({ moments, setState, onBack }) {
       ) : (
         <ul className="mt-4 grid grid-cols-2 gap-3">
           {list.map((m) => (
-            <li key={m.id}>
+            <li key={m.id} className="flex">
               <button
                 onClick={() => setOpen(m)}
-                className="block w-full rounded-sm bg-card p-2 pb-3 text-left shadow-md"
+                className="flex w-full flex-col rounded-sm bg-card p-2 pb-3 text-left shadow-md"
               >
                 <div className="relative">
                   {m.photo ? (
@@ -41,7 +41,8 @@ export default function Moments({ moments, setState, onBack }) {
                   </span>
                 </div>
                 <p className="mt-2 text-xs text-muted">{formatDate(m.day)}</p>
-                {m.photo && <p className="mt-0.5 line-clamp-2 text-sm">{m.note}</p>}
+                {/* Same space under every card, so text-only moments are as tall as photo ones. */}
+                <p className="mt-0.5 line-clamp-2 min-h-10 text-sm">{m.photo ? m.note : ''}</p>
               </button>
             </li>
           ))}
