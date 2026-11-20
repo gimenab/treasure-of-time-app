@@ -1,6 +1,7 @@
-// Catalog of 10 predefined tasks (confirmed by the founder, 2026-11-16).
+// Catalog of predefined tasks (10 confirmed by the founder 2026-11-16; messages and errands
+// added by her 2026-11-20, CR-03).
 // Values follow the brief's examples, max +15. Titles live in copy.js.
-export const CATEGORIES = ['health', 'home', 'work']
+export const CATEGORIES = ['health', 'home', 'work', 'messages', 'errands']
 
 export const CATALOG = [
   { id: 'water', category: 'health', minutes: 1 },
@@ -13,6 +14,12 @@ export const CATALOG = [
   { id: 'pending', category: 'work', minutes: 3 },
   { id: 'focus', category: 'work', minutes: 10 },
   { id: 'study', category: 'work', minutes: 10 },
+  { id: 'reply', category: 'messages', minutes: 1 },
+  { id: 'call', category: 'messages', minutes: 3 },
+  { id: 'chats', category: 'messages', minutes: 5 },
+  { id: 'bill', category: 'errands', minutes: 3 },
+  { id: 'appointment', category: 'errands', minutes: 3 },
+  { id: 'papers', category: 'errands', minutes: 5 },
 ]
 
 // Values a custom routine task can take (same range as the catalog).

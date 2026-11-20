@@ -17,6 +17,8 @@ export const copy = {
       health: 'Salud · Cuidarme',
       home: 'Hogar · Sostener mi espacio',
       work: 'Trabajo / Propósito',
+      messages: 'Mensajes',
+      errands: 'Trámites',
     },
     repeat: {
       daily: 'Todos los días',
@@ -46,6 +48,12 @@ export const copy = {
     pending: 'Responder pendientes',
     focus: 'Bloque de foco (25 min)',
     study: 'Estudiar (30 min)',
+    reply: 'Responder un mensaje pendiente',
+    call: 'Llamar o mandar audio a alguien',
+    chats: 'Ponerme al día con los chats',
+    bill: 'Pagar una cuenta',
+    appointment: 'Pedir un turno',
+    papers: 'Ordenar papeles (15 min)',
   },
 
   // Monday first; index = JS getDay() value.
