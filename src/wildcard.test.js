@@ -3,7 +3,7 @@ import { addDifficult, toggleDifficult, toggleTask } from './day.js'
 import { photoFitsMoment, registerFromTimer, registerPending, skipFromTimer } from './moments.js'
 import { emptyState, parseBackup } from './storage.js'
 import { settleTimer, stopTimer } from './timer.js'
-import { getWildcard, startWildcard, tasksLeft } from './wildcard.js'
+import { WILDCARD_MINUTES, getWildcard, startWildcard, tasksLeft } from './wildcard.js'
 
 const MON = '2026-11-16'
 const TUE = '2026-11-17'
@@ -27,10 +27,10 @@ describe('startWildcard (S-01)', () => {
     expect(getWildcard(parseBackup(text)).held).toBe(true)
   })
 
-  it('gives 15 minutes with 0 earned and does not touch the treasure', () => {
+  it('gives the wildcard minutes with 0 earned and does not touch the treasure', () => {
     const s = used()
     expect(s.treasure).toBe(0)
-    expect(s.timer).toMatchObject({ minutes: 15, wildcard: true })
+    expect(s.timer).toMatchObject({ minutes: WILDCARD_MINUTES, wildcard: true })
     expect(getWildcard(s).held).toBe(false)
   })
 
@@ -79,13 +79,13 @@ describe('next wildcard after 3 tasks', () => {
 
 describe('wildcard moments keep their mark', () => {
   it('when registered from the timer', () => {
-    const s = registerFromTimer(settleTimer(used(), 15 * MIN), MON, { note: 'Siesta' })
-    expect(s.moments[0]).toMatchObject({ minutes: 15, wildcard: true })
-    expect(s.minutesLived).toBe(15)
+    const s = registerFromTimer(settleTimer(used(), WILDCARD_MINUTES * MIN), MON, { note: 'Siesta' })
+    expect(s.moments[0]).toMatchObject({ minutes: WILDCARD_MINUTES, wildcard: true })
+    expect(s.minutesLived).toBe(WILDCARD_MINUTES)
   })
 
   it('when left for later', () => {
-    const s = skipFromTimer(settleTimer(used(), 15 * MIN), MON)
+    const s = skipFromTimer(settleTimer(used(), WILDCARD_MINUTES * MIN), MON)
     const r = registerPending(s, TUE, s.pending[0].id, { note: 'Siesta' })
     expect(r.moments[0].wildcard).toBe(true)
   })

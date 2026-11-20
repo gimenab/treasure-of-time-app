@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
+  DAY_BONUS,
+  DIFFICULT_MINUTES,
   addDifficult,
   getDay,
   removeDifficult,
@@ -41,10 +43,10 @@ describe('mark and undo (B-05)', () => {
     expect(s.treasure).toBe(0)
   })
 
-  it('adds the +10 bonus when the day is complete, and removes it on undo', () => {
+  it('adds the day bonus when the day is complete, and removes it on undo', () => {
     let s = toggleTask(base(), MON, 'water')
     s = toggleTask(s, MON, 'walk')
-    expect(s.treasure).toBe(2 + 10 + 10)
+    expect(s.treasure).toBe(2 + 10 + DAY_BONUS)
     s = toggleTask(s, MON, 'walk')
     expect(s.treasure).toBe(2)
     expect(getDay(s, MON).bonus).toBe(false)
@@ -59,7 +61,7 @@ describe('mark and undo (B-05)', () => {
 })
 
 describe('difficult task (B-06)', () => {
-  it('pays +20 and counts for the bonus', () => {
+  it('pays the difficult value and counts for the bonus', () => {
     let s = toggleTask(base(), MON, 'water')
     s = toggleTask(s, MON, 'walk')
     expect(getDay(s, MON).bonus).toBe(true)
@@ -68,7 +70,7 @@ describe('difficult task (B-06)', () => {
     expect(s.treasure).toBe(12)
     const id = getDay(s, MON).difficult[0].id
     s = toggleDifficult(s, MON, id)
-    expect(s.treasure).toBe(12 + 20 + 10)
+    expect(s.treasure).toBe(12 + DIFFICULT_MINUTES + DAY_BONUS)
   })
 
   it('removing an unmarked difficult task gives the bonus back', () => {
@@ -76,7 +78,7 @@ describe('difficult task (B-06)', () => {
     s = toggleTask(s, MON, 'walk')
     s = addDifficult(s, MON, 'Llamar al banco')
     s = removeDifficult(s, MON, getDay(s, MON).difficult[0].id)
-    expect(s.treasure).toBe(22)
+    expect(s.treasure).toBe(12 + DAY_BONUS)
   })
 
   it('an unfinished one is suggested the next day, once', () => {

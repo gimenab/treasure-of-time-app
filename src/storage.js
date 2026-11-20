@@ -1,9 +1,12 @@
 // Everything is saved in this browser only (SOW v3, C-21). No server.
+import { CATALOG, OLD_CUSTOM_MINUTES, SCALE } from './catalog.js'
+
 const KEY = 'treasure-time:v1'
 
 export function emptyState() {
   return {
     version: 1,
+    scale: SCALE, // minute values in use (catalog.js)
     setupDone: false,
     noticeSeen: false,
     tasks: [], // { id, title, category, minutes, custom, repeat: { type, days, date } }
@@ -22,7 +25,7 @@ export function loadState() {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return emptyState()
-    return { ...emptyState(), ...JSON.parse(raw) }
+    return toCurrentScale({ ...emptyState(), scale: 1, ...JSON.parse(raw) })
   } catch {
     return emptyState()
   }
@@ -55,7 +58,7 @@ export function parseBackup(text) {
       Array.isArray(state.tasks) &&
       Number.isFinite(state.treasure) &&
       typeof state.days === 'object'
-    return valid ? { ...emptyState(), ...state } : null
+    return valid ? toCurrentScale({ ...emptyState(), scale: 1, ...state }) : null
   } catch {
     return null
   }
@@ -65,4 +68,16 @@ export function parseBackup(text) {
 export function needsIphoneTip() {
   const ios = /iphone|ipad|ipod/i.test(navigator.userAgent)
   return ios && !window.navigator.standalone
+}
+
+// Saved states and copies from scale 1 move their tasks to the new values. Minutes already in
+// "Your treasure" stay: they were earned with the old rules (founder, 2026-11-19).
+export function toCurrentScale(state) {
+  if (state.scale === SCALE) return state
+  const catalog = Object.fromEntries(CATALOG.map((t) => [t.id, t.minutes]))
+  const tasks = state.tasks.map((t) => {
+    const minutes = t.custom ? (OLD_CUSTOM_MINUTES[t.minutes] ?? t.minutes) : (catalog[t.id] ?? t.minutes)
+    return { ...t, minutes }
+  })
+  return { ...state, scale: SCALE, tasks }
 }

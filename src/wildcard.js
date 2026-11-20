@@ -1,8 +1,8 @@
 // Wildcard (S-01, C-06). Pure functions: they take the state and return a new one.
-// 15 minutes without earning them, for a hard day. It does not expire, the user holds at most 1
+// 10 minutes without earning them, for a hard day. It does not expire, the user holds at most 1
 // (from the first day), and the next one comes after 3 tasks marked after using it.
 const MINUTE = 60_000
-export const WILDCARD_MINUTES = 15
+export const WILDCARD_MINUTES = 10 // scale 2 (was 15)
 export const TASKS_FOR_NEXT = 3
 
 // Old saved states and copies have no wildcard yet: they start with one.

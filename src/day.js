@@ -2,8 +2,8 @@
 import { todayKey } from './date.js'
 import { countTask } from './wildcard.js'
 
-export const DIFFICULT_MINUTES = 20 // C-17
-export const DAY_BONUS = 10 // C-17
+export const DIFFICULT_MINUTES = 10 // C-17, scale 2 (was 20)
+export const DAY_BONUS = 5 // C-17, scale 2 (was 10)
 
 const weekday = (key) => new Date(`${key}T12:00:00`).getDay()
 
