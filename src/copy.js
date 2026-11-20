@@ -72,7 +72,7 @@ export const copy = {
     lived: 'Minutos vividos',
     minutes: (n) => `${n} min`,
     open: 'Ver',
-    openMoments: 'Mis momentos',
+    openMoments: 'Mi bitácora',
     close: 'Cerrar',
   },
 
@@ -149,7 +149,7 @@ export const copy = {
   },
 
   feed: {
-    title: 'Tus momentos',
+    title: 'Mi bitácora',
     empty: 'Acá van a aparecer los momentos que registres. Completá tareas, tomate tu tiempo y contá qué hiciste con él.',
     meta: (date, n) => `${date} · ${n} min`,
     wildcard: 'Comodín',
