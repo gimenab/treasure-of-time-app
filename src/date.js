@@ -6,8 +6,10 @@ export function todayKey(d = new Date()) {
   return `${y}-${m}-${day}`
 }
 
-// "2026-11-16" -> "16/11/2026" (es-AR).
+const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+
+// "2026-11-16" -> "16 nov 26" (es-AR, short month and year: founder, 2026-11-19).
 export function formatDate(key) {
   const [y, m, d] = key.split('-')
-  return `${d}/${m}/${y}`
+  return `${d} ${MONTHS[Number(m) - 1]} ${y.slice(2)}`
 }

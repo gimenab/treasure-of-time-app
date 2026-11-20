@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { copy } from './copy.js'
 import { maxMinutes, startTimer } from './timer.js'
+import WildcardIcon from './WildcardIcon.jsx'
 import { WILDCARD_MINUTES, getWildcard, startWildcard, tasksLeft } from './wildcard.js'
 
 const t = copy.take
@@ -87,8 +88,9 @@ function Wildcard({ state, setState }) {
     <div className="mt-4 border-t border-ink/10 pt-3">
       <button
         onClick={() => setState((s) => startWildcard(s, Date.now()))}
-        className="w-full rounded-full border border-accent py-2 font-semibold text-accent"
+        className="flex w-full items-center justify-center gap-2 rounded-full border border-accent py-2 font-semibold text-accent"
       >
+        <WildcardIcon />
         {t.wildcard(WILDCARD_MINUTES)}
       </button>
       <p className="mt-1 text-sm text-muted">{t.wildcardHint}</p>

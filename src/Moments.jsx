@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { copy } from './copy.js'
 import { formatDate } from './date.js'
 import { deleteMoment } from './moments.js'
+import WildcardIcon from './WildcardIcon.jsx'
 
 const t = copy.feed
 
@@ -37,17 +38,21 @@ export default function Moments({ moments, setState, onBack }) {
                     </p>
                   )}
                   {m.wildcard && (
-                    <span className="absolute left-1 top-1 rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-paper">
-                      {t.wildcard}
+                    <span
+                      title={t.wildcard}
+                      aria-label={t.wildcard}
+                      className="absolute left-1 top-1 flex rounded-full bg-accent p-1 text-white"
+                    >
+                      <WildcardIcon className="h-4 w-4" />
                     </span>
                   )}
-                  <span className="absolute bottom-1 right-1 rounded-full bg-ink/75 px-2 py-0.5 text-xs font-semibold text-paper">
+                  <span className="absolute bottom-1 right-1 rounded-full bg-ink/75 px-2 py-0.5 font-display text-sm text-paper">
                     {t.minutes(m.minutes)}
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-muted">{formatDate(m.day)}</p>
+                <p className="mt-2 font-display text-sm text-muted">{formatDate(m.day)}</p>
                 {/* Same space under every card, so text-only moments are as tall as photo ones. */}
-                <p className="mt-0.5 line-clamp-2 min-h-10 text-sm">{m.photo ? m.note : ''}</p>
+                <p className="mt-0.5 line-clamp-2 min-h-10 font-display">{m.photo ? m.note : ''}</p>
               </button>
             </li>
           ))}
